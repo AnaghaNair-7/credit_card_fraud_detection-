@@ -1,0 +1,5 @@
+This project implements an end-to-end machine learning solution to detect fraudulent credit card transactions. Using Python and scikit-learn, it preprocesses transaction data by encoding categorical features and scaling numerical features for optimal model performance. A Logistic Regression model with balanced class weighting is trained to handle the imbalance between fraudulent and legitimate transactions.
+
+The system is deployed as a Flask web application, allowing users to input transaction details (TransactionID, Amount, MerchantID, TransactionType, Location) and receive real-time predictions along with fraud probabilities. The trained model, scalers, feature order, and encoders are serialized for consistent preprocessing and reliable predictions.
+
+This project showcases a complete workflow from data preprocessing and model training to web deployment, demonstrating practical skills in machine learning, feature engineering, and building interactive applications for real-world fraud detection.
