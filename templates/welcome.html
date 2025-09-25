@@ -3,62 +3,431 @@
   <head>
     <meta charset="utf-8">
     <title>Welcome - Credit Card Fraud Detection</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
       body {
-        font-family: Arial, sans-serif;
-        background: #f5f7fa;
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
         display: flex;
         justify-content: center;
         align-items: center;
-        height: 100vh;
-        margin: 0;
+        position: relative;
+        overflow: hidden;
       }
-      .container {
-        background: #fff;
-        padding: 30px;
-        border-radius: 12px;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-        text-align: center;
-        width: 400px;
-      }
-      h1 {
-        color: #333;
-      }
-      p {
-        color: #555;
-        margin-bottom: 20px;
-      }
-      input, button {
-        padding: 10px;
-        margin-top: 10px;
+
+      /* Animated background particles */
+      .bg-particles {
+        position: absolute;
         width: 100%;
-        border: 1px solid #ccc;
-        border-radius: 8px;
-        font-size: 16px;
+        height: 100%;
+        overflow: hidden;
+        z-index: 0;
       }
-      button {
-        background: #007BFF;
+
+      .particle {
+        position: absolute;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 50%;
+        animation: float 6s ease-in-out infinite;
+      }
+
+      .particle:nth-child(1) {
+        left: 20%;
+        width: 80px;
+        height: 80px;
+        animation-delay: 0s;
+      }
+
+      .particle:nth-child(2) {
+        left: 70%;
+        width: 60px;
+        height: 60px;
+        animation-delay: 2s;
+      }
+
+      .particle:nth-child(3) {
+        left: 50%;
+        width: 40px;
+        height: 40px;
+        animation-delay: 4s;
+      }
+
+      .particle:nth-child(4) {
+        left: 80%;
+        width: 120px;
+        height: 120px;
+        animation-delay: 1s;
+      }
+
+      .particle:nth-child(5) {
+        left: 10%;
+        width: 100px;
+        height: 100px;
+        animation-delay: 3s;
+      }
+
+      @keyframes float {
+        0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.3; }
+        50% { transform: translateY(-100px) rotate(180deg); opacity: 0.8; }
+      }
+
+      .container {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        padding: 50px 40px;
+        border-radius: 20px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        width: 450px;
+        max-width: 90vw;
+        position: relative;
+        z-index: 1;
+        animation: slideUp 0.8s ease-out;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .container:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 30px 60px rgba(0, 0, 0, 0.15);
+      }
+
+      @keyframes slideUp {
+        from {
+          opacity: 0;
+          transform: translateY(50px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .icon {
+        font-size: 4rem;
+        color: #667eea;
+        margin-bottom: 20px;
+        animation: pulse 2s ease-in-out infinite;
+      }
+
+      @keyframes pulse {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.1); }
+      }
+
+      h1 {
+        color: #2d3748;
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 15px;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        animation: textShine 3s ease-in-out infinite;
+      }
+
+      @keyframes textShine {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.8; }
+      }
+
+      .subtitle {
+        color: #4a5568;
+        font-size: 1.1rem;
+        font-weight: 400;
+        margin-bottom: 30px;
+        line-height: 1.6;
+        animation: fadeIn 1s ease-out 0.3s both;
+      }
+
+      @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+
+      .form-group {
+        position: relative;
+        margin-bottom: 25px;
+        animation: fadeIn 1s ease-out 0.6s both;
+      }
+
+      .input-wrapper {
+        position: relative;
+        overflow: hidden;
+      }
+
+      input {
+        width: 100%;
+        padding: 18px 20px 18px 50px;
+        border: 2px solid #e2e8f0;
+        border-radius: 12px;
+        font-size: 16px;
+        font-weight: 400;
+        background: #ffffff;
+        transition: all 0.3s ease;
+        outline: none;
+        color: #2d3748;
+      }
+
+      input:focus {
+        border-color: #667eea;
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        transform: translateY(-2px);
+      }
+
+      input::placeholder {
+        color: #a0aec0;
+        transition: opacity 0.3s ease;
+      }
+
+      input:focus::placeholder {
+        opacity: 0.7;
+      }
+
+      .input-icon {
+        position: absolute;
+        left: 18px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #a0aec0;
+        transition: color 0.3s ease;
+        z-index: 2;
+      }
+
+      input:focus + .input-icon {
+        color: #667eea;
+      }
+
+      .btn {
+        width: 100%;
+        padding: 18px 20px;
+        background: linear-gradient(135deg, #667eea, #764ba2);
         color: white;
         border: none;
+        border-radius: 12px;
+        font-size: 16px;
+        font-weight: 600;
         cursor: pointer;
-        transition: background 0.3s ease;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+        animation: fadeIn 1s ease-out 0.9s both;
       }
-      button:hover {
-        background: #0056b3;
+
+      .btn::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        transition: left 0.5s ease;
+      }
+
+      .btn:hover::before {
+        left: 100%;
+      }
+
+      .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+      }
+
+      .btn:active {
+        transform: translateY(0);
+      }
+
+      .security-badge {
+        margin-top: 25px;
+        padding: 15px;
+        background: rgba(102, 126, 234, 0.1);
+        border-radius: 10px;
+        border: 1px solid rgba(102, 126, 234, 0.2);
+        animation: fadeIn 1s ease-out 1.2s both;
+      }
+
+      .security-text {
+        color: #4a5568;
+        font-size: 14px;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+      }
+
+      .loading {
+        display: none;
+        margin-left: 10px;
+        animation: spin 1s linear infinite;
+      }
+
+      @keyframes spin {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+      }
+
+      /* Responsive design */
+      @media (max-width: 480px) {
+        .container {
+          padding: 30px 25px;
+          width: 95vw;
+        }
+
+        h1 {
+          font-size: 2rem;
+        }
+
+        .subtitle {
+          font-size: 1rem;
+        }
+
+        .icon {
+          font-size: 3rem;
+        }
+      }
+
+      /* Form validation styles */
+      .input-error {
+        border-color: #e53e3e !important;
+        box-shadow: 0 0 0 3px rgba(229, 62, 62, 0.1) !important;
+      }
+
+      .error-message {
+        color: #e53e3e;
+        font-size: 12px;
+        margin-top: 5px;
+        display: none;
       }
     </style>
   </head>
   <body>
-    <div class="container">
-      <h1>Welcome</h1>
-      <p>Welcome to the Credit Card Fraud Detection System.<br>
-         Please enter your name to continue.</p>
-
-      <form action="/input" method="get">
-        <input type="text" name="user_name" placeholder="Enter your name" required>
-        <button type="submit">Continue</button>
-      </form>
+    <div class="bg-particles">
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
     </div>
+
+    <div class="container">
+      <div class="icon">
+        <i class="fas fa-shield-alt"></i>
+      </div>
+      
+      <h1>Welcome</h1>
+      <p class="subtitle">
+        Advanced Credit Card Fraud Detection System<br>
+        Protecting your financial transactions with AI-powered security
+      </p>
+
+      <form action="/input" method="get" id="welcomeForm">
+        <div class="form-group">
+          <div class="input-wrapper">
+            <input 
+              type="text" 
+              name="user_name" 
+              id="userName"
+              placeholder="Enter your full name" 
+              required
+              autocomplete="name"
+            >
+            <i class="fas fa-user input-icon"></i>
+          </div>
+          <div class="error-message" id="nameError">Please enter a valid name</div>
+        </div>
+
+        <button type="submit" class="btn" id="submitBtn">
+          <span class="btn-text">Access Security Dashboard</span>
+          <i class="fas fa-spinner loading" id="loadingSpinner"></i>
+        </button>
+      </form>
+
+      <div class="security-badge">
+        <div class="security-text">
+          <i class="fas fa-lock"></i>
+          <span>Your data is protected with enterprise-grade security</span>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('welcomeForm');
+        const nameInput = document.getElementById('userName');
+        const submitBtn = document.getElementById('submitBtn');
+        const loadingSpinner = document.getElementById('loadingSpinner');
+        const nameError = document.getElementById('nameError');
+
+        // Input validation
+        nameInput.addEventListener('input', function() {
+          const name = this.value.trim();
+          if (name.length > 0 && name.length < 2) {
+            this.classList.add('input-error');
+            nameError.style.display = 'block';
+            nameError.textContent = 'Name must be at least 2 characters long';
+          } else if (name.length > 50) {
+            this.classList.add('input-error');
+            nameError.style.display = 'block';
+            nameError.textContent = 'Name must be less than 50 characters';
+          } else {
+            this.classList.remove('input-error');
+            nameError.style.display = 'none';
+          }
+        });
+
+        // Form submission with loading animation
+        form.addEventListener('submit', function(e) {
+          const name = nameInput.value.trim();
+          
+          if (name.length < 2 || name.length > 50) {
+            e.preventDefault();
+            nameInput.classList.add('input-error');
+            nameError.style.display = 'block';
+            nameError.textContent = name.length < 2 ? 'Name must be at least 2 characters long' : 'Name must be less than 50 characters';
+            return;
+          }
+
+          // Show loading state
+          loadingSpinner.style.display = 'inline-block';
+          submitBtn.style.pointerEvents = 'none';
+          submitBtn.style.opacity = '0.8';
+        });
+
+        // Add hover effect to particles
+        const particles = document.querySelectorAll('.particle');
+        particles.forEach((particle, index) => {
+          particle.addEventListener('mouseenter', function() {
+            this.style.animationDuration = '2s';
+          });
+          
+          particle.addEventListener('mouseleave', function() {
+            this.style.animationDuration = '6s';
+          });
+        });
+
+        // Add keyboard navigation enhancement
+        nameInput.addEventListener('keypress', function(e) {
+          if (e.key === 'Enter') {
+            form.dispatchEvent(new Event('submit'));
+          }
+        });
+
+        // Focus input on page load
+        setTimeout(() => {
+          nameInput.focus();
+        }, 800);
+      });
+    </script>
   </body>
 </html>
